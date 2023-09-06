@@ -2,6 +2,31 @@ const API_BASE_URL = "https://official-joke-api.appspot.com/random_joke";
 
 let data = null;
 
+function smileyFacesConfetti() {
+    
+    const confettiContainer = document.querySelector('#confetti-container');
+    const showConfetti = () => {
+        const confetti = document.createElement('div');
+        confetti.textContent = '😆';
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * innerWidth + 'px';
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    };
+
+    interval = setInterval(() => {
+    showConfetti();
+    }, 100);
+
+    setTimeout ( () => {
+        clearInterval(interval);
+    }, 3000);
+}
+
+
 function showJokes(data){
     console.log(data.setup)
     console.log(data.punchline)
@@ -23,7 +48,8 @@ function showJokes(data){
         punchlineDiv.style.color = "darkred"
         punchlineDiv.style.fontWeight = "bold"
         punchlineDiv.style.marginTop = "-15px"
-    }, 6000)
+        smileyFacesConfetti()
+    }, 5000)
 
 
     setTimeout ( () => {
@@ -31,9 +57,23 @@ function showJokes(data){
         hintDiv.innerText = "Can you guess? Here's the anwer..."
         hintDiv.style.color = "grey"
         hintDiv.style.marginTop = "-15px"
-    }, 3000)
+    }, 2000)
 
 }
+
+// function chooseTopic() {
+//     let programmingButton = document.getElementById("progamming")
+
+//     typeArray = ['general', 'programming']
+
+//     let jokeType = data.type;
+
+//     for (let type in typeArray) {
+
+//     }
+
+// }
+
     
 async function getRandomJokes() {
     console.log("Here is the joke")
@@ -47,6 +87,6 @@ async function getRandomJokes() {
 }
 
 
+let getJokesButton = document.getElementById("getJokes");
+getJokesButton.addEventListener("click", getRandomJokes)
 
-let button = document.getElementById("getJokes");
-button.addEventListener("click", getRandomJokes)
