@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://official-joke-api.appspot.com/random_joke";
+const API_BASE_URL = "https://official-joke-api.appspot.com/jokes/"
 
 let data = null;
 
@@ -28,8 +28,8 @@ function smileyFacesConfetti() {
 
 
 function showJokes(data){
-    console.log(data.setup)
-    console.log(data.punchline)
+    console.log(data[0].setup)
+    console.log(data[0].punchline)
 
     let setupDiv = document.getElementById("setup")
     let punchlineDiv = document.getElementById("punchline")
@@ -38,14 +38,16 @@ function showJokes(data){
     punchlineDiv.style.display = "none";
     hintDiv.style.display = "none";
     setupDiv.style.display = "block";
-    setupDiv.innerText = data.setup;
+    setupDiv.innerText = data[0].setup;
+    setupDiv.style.fontSize = "20px";
     setupDiv.style.marginBottom = "40px";
 
     setTimeout ( () => {
         hintDiv.style.display = "none"
         punchlineDiv.style.display = "block"
-        punchlineDiv.innerText = data.punchline
+        punchlineDiv.innerText = data[0].punchline
         punchlineDiv.style.color = "darkred"
+        punchlineDiv.style.fontSize = "20px";
         punchlineDiv.style.fontWeight = "bold"
         punchlineDiv.style.marginTop = "-15px"
         smileyFacesConfetti()
@@ -61,24 +63,11 @@ function showJokes(data){
 
 }
 
-// function chooseTopic() {
-//     let programmingButton = document.getElementById("progamming")
 
-//     typeArray = ['general', 'programming']
-
-//     let jokeType = data.type;
-
-//     for (let type in typeArray) {
-
-//     }
-
-// }
-
-    
-async function getRandomJokes() {
+async function getRandomJokes(jokeType) {
     console.log("Here is the joke")
 
-    let oneLinerData = await fetch(API_BASE_URL)
+    await fetch(API_BASE_URL + jokeType + "/random")
     .then(response => response.json())
     .then(data => showJokes(data))
     .catch(error => console.log(error))
@@ -86,7 +75,21 @@ async function getRandomJokes() {
     //console.log("oneliner name: " + oneLinerData)
 }
 
+// different style of buttons display
+//let getGeneralJokesButton = document.getElementById("general");
+//getGeneralJokesButton.addEventListener("click", () => {getRandomJokes("general")})
+//let getProgrammingJokesButton = document.getElementById("programming");
+//getProgrammingJokesButton.addEventListener("click", () => {getRandomJokes("programming")})
+
+function selectJokesType() {
+    jokesType = document.getElementById("selectType").value
+    getRandomJokes(jokesType)
+
+}
 
 let getJokesButton = document.getElementById("getJokes");
-getJokesButton.addEventListener("click", getRandomJokes)
+getJokesButton.addEventListener("click", selectJokesType)
+
+
+
 
